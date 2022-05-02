@@ -36,8 +36,8 @@ class DatasetGenerator:
         # TODO: Avoid the repeated papers or papers with multiple versions
         dataset = {}
         while self.data_retriever.count == 100:
-            print(f"""Calling entry number {self.cursor} from a total of {self.data_retriever.total_articles}\n
-                  Progress of {round(100*self.cursor/self.data_retriever.total_articles, 2)}%""", end='r')
+            print(f"""Calling entry number {self.cursor} from a total of {self.data_retriever.total_articles}. 
+                    Progress of {round(100*self.cursor/self.data_retriever.total_articles, 2)}%""", end='\r')
 
             url = f"{BASE_URL}{self.server}/{self.start_date}/{self.end_date}/{self.cursor}/json"
             try:
