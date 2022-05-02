@@ -54,6 +54,8 @@ def main():
                                                                     contains more than 100 entries.""")
     parser.add_argument('--columns', nargs="?", default="abstract,category", help="""Name API fields to retrieve. Comma separated.
                                                                     Only valid for 'task'='create_dataset'.""")
+    parser.add_argument('--save_folder', nargs="?", default="../data", help="""Name API fields to retrieve. Comma separated.
+                                                                    Only valid for 'task'='create_dataset'.""")
 
     args = parser.parse_args()
     service = args.service
@@ -67,6 +69,7 @@ def main():
     cursor = args.cursor
     task = args.task
     columns = args.columns.split(",")
+    save_folder = args.save_folder
 
     if task == "retrieve":
         output = BiorxivRetriever(service, server, start_date=start_date, end_date=end_date,
