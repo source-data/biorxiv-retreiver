@@ -3,7 +3,7 @@ from datetime import date
 import json
 from urllib.error import URLError
 from os.path import join
-
+import os
 from os import path
 
 BASE_URL = "https://api.biorxiv.org/details/"
@@ -76,7 +76,7 @@ class DatasetGenerator:
 
     def _write_file(self, data: dict) -> None:
         if not path.exists(self.save_folder):
-            path.makedirs(self.save_folder)
+            os.makedirs(self.save_folder)
 
         with open(join(self.save_folder, self.filename), "w") as fp:
             json.dump(data, fp)
