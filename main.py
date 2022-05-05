@@ -56,31 +56,34 @@ def main():
                                                                     Only valid for 'task'='create_dataset'.""")
     parser.add_argument('--save_folder', nargs="?", default="../data", help="""Name API fields to retrieve. Comma separated.
                                                                     Only valid for 'task'='create_dataset'.""")
+    parser.add_argument('--email', nargs="?", default="", help="""Email for identification. It is advisable but not mandatory.""")
 
     args = parser.parse_args()
-    service = args.service
-    server = args.server
-    start_date = args.start_date
-    end_date = args.end_date
-    doi = args.doi
-    prefix = args.prefix
-    format_ = args.format
-    interval = args.interval
-    cursor = args.cursor
-    task = args.task
-    columns = args.columns.split(",")
-    save_folder = args.save_folder
+    # service = args.service
+    # server = args.server
+    # start_date = args.start_date
+    # end_date = args.end_date
+    # doi = args.doi
+    # prefix = args.prefix
+    # format_ = args.format
+    # interval = args.interval
+    # cursor = args.cursor
+    # task = args.task
+    # columns = args.columns.split(",")
+    # save_folder = args.save_folder
+    # email = args.email
+    #
+    # if task == "retrieve":
+    #     output = BiorxivRetriever(service, server, start_date=start_date, end_date=end_date,
+    #                   format_=format_, cursor=cursor, doi=doi, prefix=prefix, interval=interval)
+    # if task == "create_dataset":
+    #     # Do a while loop. Get always count and if count < 100 stop after that iteration.
+    #     output = DatasetGenerator(server=server, start_date=start_date, end_date=end_date,
+    #                               save_folder=save_folder, email=email)
+    output = DatasetGenerator(server="biorxiv", start_date="2022-05-03", end_date=str(date.today()),
+                              save_folder="./data", email="jorge.abreu@embo.org")
 
-    if task == "retrieve":
-        output = BiorxivRetriever(service, server, start_date=start_date, end_date=end_date,
-                      format_=format_, cursor=cursor, doi=doi, prefix=prefix, interval=interval)
-    if task == "create_dataset":
-        # Do a while loop. Get always count and if count < 100 stop after that iteration.
-        output = DatasetGenerator(server=server, columns=columns, start_date=start_date, end_date=end_date)
-
-    print(output)
-    print(output())
-    return output
+    return output()
 
 
 if __name__ == "__main__":

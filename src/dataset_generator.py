@@ -5,6 +5,7 @@ from urllib.error import URLError
 from os.path import join
 import os
 from os import path
+from src.requester import BioRxivService
 
 BASE_URL = "https://api.biorxiv.org/details/"
 
@@ -16,10 +17,20 @@ class DatasetGenerator:
     By default, it will use only biorxiv and generate all the available data since 2011.
 
     It stores the data in a json file that can be further processed to obtained the desired data
+    CLI usage:
+        ```bash
+        python main.py details biorxiv create_dataset --start_date 2022-05-01
+        ```
+    Usage within a python module
+        ```python
+        datagen = DatasetGenerator()
+        dataset = datagen()
+        ```
+
     """
-    def __init__(self, server: str = "biorxiv", columns: list = ['abstract', 'category'],
+    def __init__(self, server: str = "biorxiv",
                  start_date: str = '2011-01-01', end_date: str = str(date.today()),
-                 save_folder: str = "./data", filename: str = "biorxiv_data_generator.json"):
+                 save_folder: str = "./data", filename: str = "biorxiv_data_generator.json", email: str = ""):
         """
         Parameters
         ----------
@@ -33,18 +44,25 @@ class DatasetGenerator:
             Folder to write the output data.
         filename : str, optional
             Name of file containing the json output.
+        email : str, optional
+            Email for identification. It is advisable for polite requests but not mandatory.
         """
         self.cursor = 0
+        self.count = 100
         self.service = "details"
         self.server = server
-        self.columns = columns
         self.start_date = start_date
         self.end_date = end_date
         self.url = f"{BASE_URL}{server}/{start_date}/{end_date}/{str(self.cursor)}/json"
         self.save_folder = save_folder
         self.filename = filename
-        self.data_retriever = BiorxivRetriever("details", server, start_date=start_date,
-                                               end_date=end_date, format_="json", cursor=str(self.cursor))
+        if email:
+            self.headers = {
+                            "From": f"{email}",
+                            "Accept": "application/json",
+                            }
+        else:
+            self.headers = {"Accept": "application/json"}
 
     def __call__(self) -> dict:
         """Will call the Biorxiv API as many times as necessary to generate a json file with the
@@ -53,20 +71,14 @@ class DatasetGenerator:
         :returns `dict`
         """
         dataset = {}
-        while self.data_retriever.count == 100:
-            print(f"""Calling entry number {self.cursor} from a total of {self.data_retriever.total_articles}. Progress of {round(100*self.cursor/self.data_retriever.total_articles, 2)}%""", end='\r')
-
-            url = f"{BASE_URL}{self.server}/{self.start_date}/{self.end_date}/{self.cursor}/json"
-            try:
-                self.data_retriever = BiorxivRetriever(self.service, self.server, start_date=self.start_date,
-                                                       end_date=self.end_date, format_="json",
-                                                       cursor=str(self.cursor))
-            except URLError:
-                self.data_retriever = BiorxivRetriever(self.service, self.server, start_date=self.start_date,
-                                                       end_date=self.end_date, format_="json",
-                                                       cursor=str(self.cursor))
-
-            for paper in self.data_retriever.papers:
+        while self.count == 100:
+            self.url = f"{BASE_URL}{self.server}/{self.start_date}/{self.end_date}/{self.cursor}/json"
+            self.data_retriever = BioRxivService(self.url, self.headers)
+            response = self.data_retriever()
+            self.total_articles = response['messages'][0]['total']
+            self.count = response['messages'][0]['count']
+            print(f"""Calling entry number {self.cursor} from a total of {self.total_articles}. Progress of {round(100 * self.cursor / self.total_articles, 2)}%""", end='\r')
+            for paper in response['collection']:
                 dataset = self._remove_duplicates(dataset, paper)
 
             self.cursor += 100
@@ -74,6 +86,7 @@ class DatasetGenerator:
         self._write_file(dataset)
 
         return dataset
+
 
     @staticmethod
     def _remove_duplicates(history: dict, new: dict) -> dict:
@@ -106,16 +119,16 @@ class DatasetGenerator:
 
         Total articles found {self.data_retriever.total_articles}
         URL generated {self.url}
-        
+
         Data columns to generate dataset -> {self.columns}
 
-        Search attributes: 
+        Search attributes:
             server -> {self.server}
             service -> {self.service}
             start date -> {self.start_date}
             end date -> {self.end_date}
 
         Example of the first paper retrieved:
-            {json.dumps(self.data_retriever.papers[0], indent=4, sort_keys=True)} 
+            {json.dumps(self.data_retriever.papers[0], indent=4, sort_keys=True)}
         ============================================================
         """
