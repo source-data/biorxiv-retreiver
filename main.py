@@ -1,5 +1,5 @@
-from biorxiv_retriever import BiorxivRetriever
-from dataset_generator import DatasetGenerator
+from src.biorxiv_retriever import BiorxivRetriever
+from src.dataset_generator import DatasetGenerator
 import argparse
 from datetime import date
 
