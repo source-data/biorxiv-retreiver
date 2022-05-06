@@ -60,7 +60,7 @@ class Service:
         self.retry_request.headers.update(self.HEADERS)
 
 
-class BioRxivService(Service):
+class BiorxivRequester(Service):
     """
     Generates resilient calls to [biorxiv API](https://api.biorxiv.org/)
     """

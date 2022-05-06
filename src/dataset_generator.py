@@ -5,7 +5,7 @@ from urllib.error import URLError
 from os.path import join
 import os
 from os import path
-from src.requester import BioRxivService
+from src.requester import BiorxivRequester
 
 BASE_URL = "https://api.biorxiv.org/details/"
 
@@ -73,7 +73,7 @@ class DatasetGenerator:
         dataset = {}
         while self.count == 100:
             self.url = f"{BASE_URL}{self.server}/{self.start_date}/{self.end_date}/{self.cursor}/json"
-            self.data_retriever = BioRxivService(self.url, self.headers)
+            self.data_retriever = BiorxivRequester(self.url, self.headers)
             response = self.data_retriever()
             self.total_articles = response['messages'][0]['total']
             self.count = response['messages'][0]['count']
