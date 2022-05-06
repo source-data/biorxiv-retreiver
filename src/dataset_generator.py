@@ -132,6 +132,6 @@ class DatasetGenerator:
             end date -> {self.end_date}
 
         Example of paper:
-            {self.paper}
+            {type(self.paper)}
         ============================================================
         """
