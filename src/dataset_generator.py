@@ -122,7 +122,7 @@ class DatasetGenerator:
         ============================================================
         Results from the medatadata retrieval of {self.server}.
 
-        Total articles found {self.data_retriever.total_articles}
+        Total articles found {self.total_articles}
         URL generated {self.url}
 
         Data columns to generate dataset -> {self.columns}
