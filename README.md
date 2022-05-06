@@ -70,7 +70,6 @@ python -m src.cli.create_data.create_data medrxiv \
 ```
 
 Retrieve the entire metadata available since April 2022 and also the source XML text.
-**Still not supported**.
 ```bash
 python -m src.cli.create_data.create_data biorxiv \
       --start_date=2022-04-01 \
