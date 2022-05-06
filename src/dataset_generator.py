@@ -125,8 +125,6 @@ class DatasetGenerator:
         Total articles found {self.total_articles}
         URL generated {self.url}
 
-        Data columns to generate dataset -> {self.columns}
-
         Search attributes:
             server -> {self.server}
             service -> {self.service}
