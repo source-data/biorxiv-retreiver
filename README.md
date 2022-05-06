@@ -19,6 +19,41 @@ Clone the repository and setup a Python virtual environment:
 
 ### Using biotxiv-retriever from the CLI
 
+From the directory root you can get CLI help on how to call the commands using:
+
+```bash
+# To use BiorxivRetriever
+python -m src.cli.search.search --help
+# To use DatasetGenerator
+python -m src.cli.create_data.create_data --help
+```
+
+#### Examples on using BiorxivRetriever
+Using the details service of the [Biorxiv API](https://api.biorxiv.org/) to find all papers 
+between first of May 2022 and the current date.
+```bash
+python -m src.cli.search.search details biorxiv \
+        --start_date=2022-05-01
+```
+Using the details service of the [Biorxiv API](https://api.biorxiv.org/) to find all papers 
+between first of May 2022 and the current date.
+```bash
+python -m src.cli.search.search details biorxiv \
+        --start_date=2022-05-01
+```
+
+    args = parser.parse_args()
+    service = args.service
+    server = args.server
+    start_date = args.start_date
+    end_date = args.end_date
+    doi = args.doi
+    prefix = args.prefix
+    format_ = args.format
+    interval = args.interval
+    cursor = args.cursor
+    save_folder = args.save_folder
+    filename = args.filename
 
 ### Using biotxiv-retriever as a python module
 

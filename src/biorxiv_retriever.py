@@ -151,6 +151,8 @@ class BiorxivRetriever:
             self.papers = self._retrieve_metadata()['bioRxiv content statistics']
             self.total_articles = None
 
+    def __call__(self):
+        metadata = self._retrieve_metadata()
         self._write_file(self._retrieve_metadata())
 
     def _retrieve_metadata(self):
