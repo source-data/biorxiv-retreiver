@@ -64,4 +64,5 @@ if __name__ == "__main__":
                   format_=format_, cursor=cursor, doi=doi, prefix=prefix, interval=interval,
                             save_folder=save_folder, filename=filename)
 
+    print(output)
     output()

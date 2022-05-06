@@ -153,7 +153,7 @@ class BiorxivRetriever:
 
     def __call__(self):
         metadata = self._retrieve_metadata()
-        self._write_file(self._retrieve_metadata())
+        self._write_file(metadata)
 
     def _retrieve_metadata(self):
         """Returns the metadata from the Biorxiv API.
