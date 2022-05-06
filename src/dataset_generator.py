@@ -30,7 +30,8 @@ class DatasetGenerator:
     """
     def __init__(self, server: str = "biorxiv",
                  start_date: str = '2011-01-01', end_date: str = str(date.today()),
-                 save_folder: str = "./data", filename: str = "biorxiv_data_generator.json", email: str = ""):
+                 save_folder: str = "./data", filename: str = "biorxiv_data_generator.json", email: str = "",
+                 xml: boo = False):
         """
         Parameters
         ----------
@@ -56,6 +57,7 @@ class DatasetGenerator:
         self.url = f"{BASE_URL}{server}/{start_date}/{end_date}/{str(self.cursor)}/json"
         self.save_folder = save_folder
         self.filename = filename
+        self.xml = xml
         if email:
             self.headers = {
                             "From": f"{email}",
@@ -84,6 +86,9 @@ class DatasetGenerator:
             self.cursor += 100
 
         self._write_file(dataset)
+
+        if self.xml:
+            """This option will add the source text in htm to the data. Still not supported"""
 
         return dataset
 
