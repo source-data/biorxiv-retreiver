@@ -1,11 +1,10 @@
-from src.biorxiv_retriever import BiorxivRetriever
 from datetime import date
 import json
-from urllib.error import URLError
 from os.path import join
 import os
 from os import path
 from src.requester import BiorxivRequester
+import requests
 
 BASE_URL = "https://api.biorxiv.org/details/"
 
@@ -66,7 +65,7 @@ class BiorxivDataGenerator:
         else:
             self.headers = {"Accept": "application/json"}
         if self.xml:
-            print("""⚠WARNING: XML option will add the source text in htm to the data. Still not supported⚠""")
+            print("""⚠ WARNING: XML option will add the source text in htm to the data. Still not supported ⚠""")
 
     def __call__(self) -> dict:
         """Will call the Biorxiv API as many times as necessary to generate a json file with the
@@ -84,6 +83,8 @@ class BiorxivDataGenerator:
             print(f"""Calling entry number {self.cursor} from a total of {self.total_articles}. Progress of {round(100 * self.cursor / self.total_articles, 2)}%""", end='\r')
             for paper in response['collection']:
                 dataset = self._remove_duplicates(dataset, paper)
+                if self.xml:
+                    self._dl_source_xml(paper)
 
             self.cursor += 100
         self.paper = paper
@@ -115,6 +116,17 @@ class BiorxivDataGenerator:
 
         with open(join(self.save_folder, self.filename), "w") as fp:
             json.dump(data, fp)
+
+    def _dl_source_xml(self, paper: dict) -> None:
+        """Writes data into a json file in the self.data_folder provided at class instantiation."""
+        xml_folder = join(self.save_folder, "xml")
+        if not path.exists(xml_folder):
+            os.makedirs(xml_folder)
+
+        source_url = paper.get("jatsxml", None)
+        if source_url:
+            r = requests.get(source_url, allow_redirects=True)
+            open(f"{join(xml_folder, paper['doi'])}.xml", 'wb').write(r.content)
 
     def __str__(self):
         return f"""
