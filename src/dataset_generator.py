@@ -65,6 +65,8 @@ class BiorxivDataGenerator:
                             }
         else:
             self.headers = {"Accept": "application/json"}
+        if self.xml:
+            print("""⚠WARNING: XML option will add the source text in htm to the data. Still not supported⚠""")
 
     def __call__(self) -> dict:
         """Will call the Biorxiv API as many times as necessary to generate a json file with the
@@ -86,9 +88,6 @@ class BiorxivDataGenerator:
             self.cursor += 100
         self.paper = paper
         self._write_file(dataset)
-
-        if self.xml:
-            """This option will add the source text in htm to the data. Still not supported"""
 
         return dataset
 
