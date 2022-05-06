@@ -124,7 +124,7 @@ class BiorxivDataGenerator:
         source_url = paper.get("jatsxml", None)
         if source_url:
             r = requests.get(source_url, allow_redirects=True)
-            open(f"{join(xml_folder, paper['doi'])}.xml", 'wb').write(r.content)
+            open(f"{join(xml_folder, paper['doi'].replace('/','-'))}.xml", 'wb').write(r.content)
 
     def __str__(self):
         return f"""
