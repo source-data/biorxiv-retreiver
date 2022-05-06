@@ -32,4 +32,5 @@ if __name__ == "__main__":
     output = DatasetGenerator(server=server, start_date=start_date, end_date=end_date,
                               save_folder=save_folder, email=email, xml=xml, filename=filename)
 
+    print(output)
     output()

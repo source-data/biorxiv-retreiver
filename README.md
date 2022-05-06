@@ -55,10 +55,10 @@ python -m src.cli.search.search sum biorxiv \
 
 #### Examples on using DatasetGenerator
 
-Get all the available metadata in biorxiv since May 2022.
+Get all the available metadata in biorxiv since 4th May 2022 <(-_-)> may the force be with you.
 ```bash
 python -m src.cli.create_data.create_data biorxiv \
-      --start_date=2022-04-01 \
+      --start_date=2022-05-05 \
       --email=your.email@company.acme
 ```
 
@@ -77,6 +77,5 @@ python -m src.cli.create_data.create_data biorxiv \
       --email=your.email@company.acme \
       --xml=True
 ```
-
 ### Using biotxiv-retriever as a python module
 
