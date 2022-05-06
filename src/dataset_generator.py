@@ -10,7 +10,7 @@ from src.requester import BiorxivRequester
 BASE_URL = "https://api.biorxiv.org/details/"
 
 
-class DatasetGenerator:
+class BiorxivDataGenerator:
     """
     Generates a dataset using the biorxiv API and its service details.
     It can get the data from medrxiv, biorxiv or both separately.

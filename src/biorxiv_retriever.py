@@ -188,7 +188,7 @@ class BiorxivRetriever:
         Results from the medatadata retrieval of {self.server}.
 
         Total articles found {self.total_articles}
-        URL generated {self.url}
+        URL generated {self.url}    
         
         The data will be written to {join(self.save_folder, self.filename)}
 

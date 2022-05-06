@@ -1,4 +1,4 @@
-from ...dataset_generator import DatasetGenerator
+from ...dataset_generator import BiorxivDataGenerator
 import argparse
 from datetime import date
 
@@ -29,8 +29,8 @@ if __name__ == "__main__":
     xml = args.xml
     filename = args.filename
 
-    output = DatasetGenerator(server=server, start_date=start_date, end_date=end_date,
-                              save_folder=save_folder, email=email, xml=xml, filename=filename)
+    output = BiorxivDataGenerator(server=server, start_date=start_date, end_date=end_date,
+                                  save_folder=save_folder, email=email, xml=xml, filename=filename)
 
     output()
     print(output)
