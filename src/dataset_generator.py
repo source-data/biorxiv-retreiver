@@ -84,7 +84,7 @@ class DatasetGenerator:
                 dataset = self._remove_duplicates(dataset, paper)
 
             self.cursor += 100
-
+        self.paper = paper
         self._write_file(dataset)
 
         if self.xml:
@@ -131,7 +131,7 @@ class DatasetGenerator:
             start date -> {self.start_date}
             end date -> {self.end_date}
 
-        Example of the first paper retrieved:
-            {response['collection'][0]}
+        Example of paper:
+            {self.paper}
         ============================================================
         """
