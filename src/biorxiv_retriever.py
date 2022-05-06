@@ -189,6 +189,8 @@ class BiorxivRetriever:
 
         Total articles found {self.total_articles}
         URL generated {self.url}
+        
+        The data will be written to {join(self.save_folder, self.filename)}
 
         Search attributes: 
             server -> {self.server}
