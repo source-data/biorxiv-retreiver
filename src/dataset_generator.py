@@ -132,6 +132,6 @@ class DatasetGenerator:
             end date -> {self.end_date}
 
         Example of paper:
-            {type(self.paper)}
+            {json.dumps(self.paper, sort_keys=True, indent=4)}
         ============================================================
         """
