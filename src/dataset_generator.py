@@ -132,6 +132,6 @@ class DatasetGenerator:
             end date -> {self.end_date}
 
         Example of the first paper retrieved:
-            {json.dumps(self.data_retriever.papers[0], indent=4, sort_keys=True)}
+            {response['collection'][0]}
         ============================================================
         """
