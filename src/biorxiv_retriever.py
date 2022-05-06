@@ -1,6 +1,9 @@
 import json
 from urllib import request
 from datetime import datetime
+from os.path import join
+import os
+from os import path
 
 BASE_URLs = {"details": "https://api.biorxiv.org/details/",
              "pubs": "https://api.biorxiv.org/pubs/",
@@ -57,10 +60,11 @@ class BiorxivRetriever:
     says(sound=None)
         Prints the animals name and what sound it makes
     """
-
     def __init__(self, service: str, server: str, start_date: str = '2020-01-01',
                  end_date: str = '2022-03-31', interval: str = 'm', cursor: str = 0,
-                 format_: str = 'json', prefix: str = '10.15252', doi: str = ""):
+                 format_: str = 'json', prefix: str = '10.15252', doi: str = "",
+                 filename: str = "biorxiv_metadata.json",
+                 save_folder: str = "./data"):
         """
         Parameters
         ----------
@@ -97,6 +101,8 @@ class BiorxivRetriever:
         self.interval = interval
         self.cursor = cursor
         self.prefix = prefix
+        self.save_folder = save_folder
+        self.filename = filename
 
         if service in ['details', 'pubs']:
             if doi:
@@ -145,6 +151,8 @@ class BiorxivRetriever:
             self.papers = self._retrieve_metadata()['bioRxiv content statistics']
             self.total_articles = None
 
+        self._write_file(self._retrieve_metadata())
+
     def _retrieve_metadata(self):
         """Returns the metadata from the Biorxiv API.
         :returns dict with the API response. The API will have 'messages' and 'collections' as keys.
@@ -163,6 +171,14 @@ class BiorxivRetriever:
         start = datetime.strptime(self.start_date, '%Y-%m-%d')
         end = datetime.strptime(self.end_date, '%Y-%m-%d')
         return start < end
+
+    def _write_file(self, data: dict) -> None:
+        """Writes data into a json file in the self.data_folder provided at class instantiation."""
+        if not path.exists(self.save_folder):
+            os.makedirs(self.save_folder)
+
+        with open(join(self.save_folder, self.filename), "w") as fp:
+            json.dump(data, fp)
 
     def __str__(self):
         return f"""

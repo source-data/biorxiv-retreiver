@@ -7,4 +7,18 @@ The former uses resilient HTTP requests to generate a dataset with the available
 in [Biorxiv](https://biorxiv.org/). BiorxivRetriever is an API wrapper that allows for API
 calls to any of the services supported by the Biorxiv API.
 
+## Installing biorxiv-retriever
+
+Clone the repository and setup a Python virtual environment:
+```bash
+    python3 -m venv .venv
+    source .venv/bin/activate
+    pip install --upgrade pip
+    pip install -r requirements.txt 
+``` 
+
+### Using biotxiv-retriever from the CLI
+
+
+### Using biotxiv-retriever as a python module
 
