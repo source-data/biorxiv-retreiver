@@ -58,30 +58,33 @@ python -m src.cli.search.search sum biorxiv \
 Get all the available metadata in biorxiv since 4th May 2022 <(-_-)> may the force be with you.
 ```bash
 python -m src.cli.create_data.create_data biorxiv \
-      --start_date=2022-05-05 \
+      --start_date=2022-05-04 \
       --email=your.email@company.acme
 ```
 
 Same as above for Medrxiv.
 ```bash
 python -m src.cli.create_data.create_data medrxiv \
-      --start_date=2022-04-01 \
+      --start_date=2022-05-04 \
       --email=your.email@company.acme
 ```
 
 Retrieve the entire metadata available since April 2022 and also the source XML text.
 ```bash
 python -m src.cli.create_data.create_data biorxiv \
-      --start_date=2022-04-01 \
+      --start_date=2022-05-04 \
       --email=your.email@company.acme \
       --xml=True
 ```
 ### Using biotxiv-retriever as a python module
 
 The functionalities of biorxiv-retriever can be used as normal python modules
-in case it is necessary. 
+in case it is necessary. The last line above can be called from a python script using:
 
 ```python
-
-
+from src.dataset_generator import BiorxivDataGenerator
+data = BiorxivDataGenerator(start_date='2022-05-04', 
+                            email='your.email@company.acme',
+                            xml=True)
+data()
 ```
