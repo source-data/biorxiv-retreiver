@@ -31,7 +31,7 @@ class DatasetGenerator:
     def __init__(self, server: str = "biorxiv",
                  start_date: str = '2011-01-01', end_date: str = str(date.today()),
                  save_folder: str = "./data", filename: str = "biorxiv_data_generator.json", email: str = "",
-                 xml: boo = False):
+                 xml: bool = False):
         """
         Parameters
         ----------
