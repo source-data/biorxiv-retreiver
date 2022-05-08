@@ -82,8 +82,8 @@ class BiorxivDataGenerator:
             print(f"""Calling entry number {self.cursor} from a total of {self.total_articles}. Progress of {round(100 * self.cursor / self.total_articles, 2)}%""", end='\r')
             for paper in response['collection']:
                 dataset = self._remove_duplicates(dataset, paper)
-                if self.xml:
-                    self._dl_source_xml(paper)
+                # if self.xml:
+                #     self._dl_source_xml(paper)
 
             self.cursor += 100
         self.paper = paper
