@@ -57,7 +57,7 @@ class BiorxivDataGenerator:
         self.url = f"{BASE_URL}{server}/{start_date}/{end_date}/{str(self.cursor)}/json"
         self.save_folder = save_folder
         self.filename = filename
-        self.xml = xml
+        self.xml = bool(xml)
         if email:
             self.headers = {
                             "From": f"{email}",
@@ -82,8 +82,8 @@ class BiorxivDataGenerator:
             print(f"""Calling entry number {self.cursor} from a total of {self.total_articles}. Progress of {round(100 * self.cursor / self.total_articles, 2)}%""", end='\r')
             for paper in response['collection']:
                 dataset = self._remove_duplicates(dataset, paper)
-                # if self.xml:
-                #     self._dl_source_xml(paper)
+                if self.xml:
+                    self._dl_source_xml(paper)
 
             self.cursor += 100
         self.paper = paper
