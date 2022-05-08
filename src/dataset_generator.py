@@ -5,8 +5,9 @@ import os
 from os import path
 from src.requester import BiorxivRequester
 import requests
-
+import logging
 BASE_URL = "https://api.biorxiv.org/details/"
+SOURCE_URL_BASE = 'https://www.biorxiv.org/'
 
 
 class BiorxivDataGenerator:
@@ -115,6 +116,18 @@ class BiorxivDataGenerator:
         with open(join(self.save_folder, self.filename), "w") as fp:
             json.dump(data, fp)
 
+    def dl_source_xml(self, json_: str) -> None:
+        """Similar to the hidden version. In this case, it takes as argument a json filename
+        with the entire biorxiv records and uses them to download the html data.
+        Parameters
+        ----------
+        : json_ : str, Filename containing the json object with the paper metadata."""
+
+        file_ = open(json_)
+        dict_ = json.load(file_)
+        for id_, paper in dict_.items():
+            self._dl_source_xml(paper)
+
     def _dl_source_xml(self, paper: dict) -> None:
         """Writes data into a json file in the self.data_folder provided at class instantiation."""
         xml_folder = join(self.save_folder, "xml")
@@ -123,8 +136,14 @@ class BiorxivDataGenerator:
 
         source_url = paper.get("jatsxml", None)
         if source_url:
-            r = requests.get(source_url, allow_redirects=True)
-            open(f"{join(xml_folder, paper['doi'].replace('/','-'))}.xml", 'wb').write(r.content)
+            if not source_url.startswith(SOURCE_URL_BASE):
+                source_url = SOURCE_URL_BASE + source_url
+            logging.info(f"Downloading source text data for {paper['doi']} ")
+            try:
+                r = requests.get(source_url, allow_redirects=True)
+                open(f"{join(xml_folder, paper['doi'].replace('/','-'))}.xml", 'wb').write(r.content)
+            except requests.exceptions.ConnectionError:
+                logging.warning(f"{paper['doi']} has generated a ConnectionError and has not been downloaded")
 
     def __str__(self):
         return f"""
