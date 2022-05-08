@@ -88,3 +88,9 @@ data = BiorxivDataGenerator(start_date='2022-05-04',
                             xml=True)
 data()
 ```
+
+If you are interested on downloading the metadata only and want to download the source `xml`
+files on a later stage, we provide the `BiorxivDataGenerator.dl_source_xml` method.
+It accepts the path to the json file with the metadata generated and it downloads the source
+files. This is useful if you want to obtain the metadata first and the
+source text on a later step.
