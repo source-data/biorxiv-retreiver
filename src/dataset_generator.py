@@ -125,8 +125,11 @@ class BiorxivDataGenerator:
 
         file_ = open(json_)
         dict_ = json.load(file_)
+        count_ = 0
         for id_, paper in dict_.items():
+            print(f"""Downloading paper {count_} from a total of {len(list(dict_.items()))}. Progress of {round(100 * count_ / len(list(dict_.items())), 2)}%""", end='\r')
             self._dl_source_xml(paper)
+            count_ += 1
 
     def _dl_source_xml(self, paper: dict) -> None:
         """Writes data into a json file in the self.data_folder provided at class instantiation."""
